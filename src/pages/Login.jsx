@@ -1,9 +1,14 @@
-import React, { use } from "react";
-import { Link } from "react-router";
+import React, { use, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Login = () => {
+  const [error,setError]=useState('');
   const {login}=use(AuthContext);
+  const location = useLocation();
+  const navigate =useNavigate();
+  console.log(location);
+  
   const handleLogin =(e)=>{
     e.preventDefault();
     const email =e.target.email.value;
@@ -13,8 +18,9 @@ const Login = () => {
     .then((result) => {
         const user = result.user;
         console.log("User created:", user);
+        navigate(`${location.state? location.state:'/'}`)
       })
-      .catch((error) => console.log("Error:", error.message));
+      .catch((error) => setError(error.message));
   }
   return (
     <div className="">
@@ -31,6 +37,10 @@ const Login = () => {
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
+            {
+              error && <p className="text-red-400">{error}</p>
+            }
+            <button type="submit" className="btn btn-neutral mt-4">Login</button>
             <p className="text-[20px]">
               Don't have an account?Please{" "}
               <Link
@@ -40,7 +50,7 @@ const Login = () => {
                 Register
               </Link>
             </p>
-            <button type="submit" className="btn btn-neutral mt-4">Login</button>
+            
           </fieldset>
         </form>
       </div>
