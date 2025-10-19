@@ -7,17 +7,17 @@ const Login = () => {
   const {login}=use(AuthContext);
   const location = useLocation();
   const navigate =useNavigate();
-  console.log(location);
+  // console.log(location);
   
   const handleLogin =(e)=>{
     e.preventDefault();
     const email =e.target.email.value;
     const password =e.target.password.value;
-    console.log(email,password);
+    // console.log(email,password);
     login(email,password)
     .then((result) => {
         const user = result.user;
-        console.log("User created:", user);
+        // console.log("User created:", user);
         navigate(`${location.state? location.state:'/'}`)
       })
       .catch((error) => setError(error.message));
